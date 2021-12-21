@@ -1,0 +1,155 @@
+@import './../../styles/mixins.scss';
+@import './../../styles/media-queries.scss';
+
+.btn {
+	padding: 4px 16px;
+	margin-bottom: 0;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	display: inline-block;
+	border: 0;
+	border-radius: 2px;
+	font-weight: 500;
+	@include fontSize(15);
+	text-align: center;
+	color: #fff;
+	width: 100%;
+	font-family: var(--font-primary);
+	text-decoration: none;
+	font-style: normal;
+	height: auto;
+	white-space: nowrap;
+	transition: all 0.2s;
+
+	@include sm {
+		width: auto;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+}
+
+.btnPrimary {
+	composes: btn;
+	color: var(--color-text);
+	border: 2px solid var(--color-sunset-light);
+	background-color: transparent;
+
+	&:hover {
+		background-color: var(--color-sunset);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0.1) 0%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		color: #fff;
+	}
+
+	&:active {
+		background-color: var(--color-sunset);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.15) 100%
+		);
+		box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+		color: #fff;
+	}
+}
+
+.btnAction {
+	composes: btn;
+	color: #fff;
+	// border: 2px solid rgba(102, 109, 233, 0.5);
+	background-color: var(--color-sunset);
+
+	&:hover {
+		background-color: #ee671f;
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0.1) 0%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		color: #fff;
+	}
+
+	&:active {
+		background-color: var(--color-calmdown);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.15) 100%
+		);
+		box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+		color: #fff;
+	}
+}
+
+.btnDelete {
+	composes: btn;
+	color: var(--color-text);
+	background-color: var(--color-error);
+	color: #fff;
+
+	&:hover {
+		background-color: var(--color-error);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0.1) 0%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		color: #fff;
+	}
+
+	&:active {
+		background-color: var(--color-error);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.15) 100%
+		);
+		box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+		color: #fff;
+	}
+}
+
+.btnSuccess {
+	composes: btn;
+	color: var(--color-text);
+	background-color: var(--color-success);
+	color: #fff;
+
+	&:hover {
+		background-color: var(--color-success);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0.1) 0%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		color: #fff;
+	}
+
+	&:active {
+		background-color: var(--color-success);
+		background-image: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 0) 0%,
+			rgba(0, 0, 0, 0.15) 100%
+		);
+		box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+		color: #fff;
+	}
+}
+
+.btnLg {
+	@include fontSize(16);
+	padding: 8px 20px;
+}

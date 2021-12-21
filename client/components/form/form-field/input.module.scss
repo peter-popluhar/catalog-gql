@@ -1,0 +1,32 @@
+.input {
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+	height: 2rem;
+	padding: 0 0.5rem;
+	font-weight: 400;
+	border-radius: 2px;
+	font-style: normal;
+	color: var(--color-text);
+	width: 100%;
+	appearance: none;
+	border: 1px solid var(--color-calmdown);
+	background-color: var(--color-canvas);
+}
+
+.area {
+	min-height: 10rem;
+	resize: none;
+	padding: 0.5rem;
+}
+
+.orange {
+	border: 1px solid var(--color-sunset);
+
+	&:focus {
+		border-color: var(--color-sunset-light);
+		outline: var(--color-sunset-light);
+		box-shadow: rgba(0, 0, 0, 0.12) 0 8px 24px 0;
+		transition: all 0.4 ease-in-out;
+	}
+}

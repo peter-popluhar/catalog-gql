@@ -1,0 +1,49 @@
+@import './../../styles/media-queries.scss';
+@import './../../styles/mixins.scss';
+
+.btn {
+	border: none;
+	text-decoration: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	cursor: pointer;
+	background-color: transparent;
+
+	&:focus {
+		outline: none;
+	}
+
+	&:active {
+		transform: scale(0.99);
+		color: var(--color-calmdown);
+	}
+}
+
+.btnProfile {
+	composes: btn;
+	display: flex;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	background: var(--color-calmdown) url(./../../public/me.png) no-repeat center
+		center;
+	background-size: contain;
+	text-indent: -999rem;
+}
+
+.btnLogout {
+	composes: btn;
+	font-weight: 500;
+	text-transform: capitalize;
+	padding: 1.2rem;
+
+	&:active {
+		transform: scale(1);
+		color: inherit;
+	}
+}
+
+.Nouser {
+	filter: grayscale(5);
+	background-image: url(./../../public/photo.png);
+}

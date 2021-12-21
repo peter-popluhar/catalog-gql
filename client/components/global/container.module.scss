@@ -1,0 +1,25 @@
+@import './../../styles/media-queries.scss';
+
+.container {
+	width: 100%;
+	padding-right: 16px;
+	padding-left: 16px;
+	margin-right: auto;
+	margin-left: auto;
+
+	@include sm {
+		max-width: 542px;
+	}
+
+	@include md {
+		max-width: 752px;
+	}
+
+	@include lg {
+		max-width: 972px;
+	}
+
+	@include xl {
+		max-width: 1172px;
+	}
+}

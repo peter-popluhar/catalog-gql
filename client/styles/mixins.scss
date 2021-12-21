@@ -1,0 +1,18 @@
+/* -------------------------------- 
+
+Font size
+
+-------------------------------- */
+
+@use "sass:math";
+
+@function calculateRem($size) {
+	$remSize: math.div($size, 16);
+	@return #{$remSize}rem;
+}
+
+@mixin fontSize($size, $lineHeight: 1.4) {
+	font-size: $size + px; //Fallback in px
+	font-size: calculateRem($size);
+	line-height: $lineHeight;
+}

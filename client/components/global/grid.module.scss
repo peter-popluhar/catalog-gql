@@ -1,0 +1,22 @@
+@import './../../styles/media-queries.scss';
+
+.grid {
+	max-width: 320px;
+	display: grid;
+	row-gap: 1rem;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 2rem;
+
+	@include sm {
+		max-width: none;
+		column-gap: 1rem;
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.gridList {
+	@include sm {
+		grid-template-columns: 1fr;
+	}
+}

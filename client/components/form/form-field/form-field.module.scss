@@ -1,0 +1,15 @@
+.field {
+	margin-bottom: 1rem;
+}
+
+.hasCurrency {
+	display: flex;
+	align-items: center;
+}
+
+.currency {
+	margin-left: 1rem;
+	width: 4rem;
+	display: inline-block;
+	text-transform: uppercase;
+}

@@ -1,0 +1,16 @@
+@import './../../styles/media-queries.scss';
+
+.wrapper {
+	width: 100%;
+	background-color: var(--color-canvas);
+	padding: 1rem;
+
+	@include md {
+		padding: 2rem;
+	}
+
+	legend {
+		margin-bottom: 1rem;
+		color: var(--color-text);
+	}
+}

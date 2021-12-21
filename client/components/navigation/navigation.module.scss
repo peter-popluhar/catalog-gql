@@ -1,0 +1,37 @@
+.nav {
+	margin-right: auto;
+	margin-left: 2rem;
+	height: 100%;
+}
+
+.list {
+	display: flex;
+	height: 100%;
+}
+
+.item {
+	display: flex;
+}
+
+.link {
+	display: flex;
+	align-items: center;
+	padding: 0 0.5rem;
+	font-weight: 500;
+	text-transform: capitalize;
+}
+
+.active {
+	position: relative;
+
+	&:after {
+		position: absolute;
+		content: '';
+		display: block;
+		width: calc(100% - 1rem);
+		height: 2px;
+		bottom: 0;
+		left: 0.5rem;
+		background-color: var(--color-sunset-light);
+	}
+}

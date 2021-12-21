@@ -1,0 +1,31 @@
+@import './../../styles/media-queries.scss';
+@import './../../styles/mixins.scss';
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	visibility: hidden;
+	opacity: 0;
+	transition: all 0.6 ease-in;
+	z-index: -1;
+
+	@include md {
+		display: none;
+	}
+}
+
+.isActive {
+	visibility: visible;
+	opacity: 1;
+	z-index: 4;
+
+	@include md {
+		display: none;
+	}
+}

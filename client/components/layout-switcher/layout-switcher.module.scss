@@ -1,0 +1,20 @@
+.wrapper {
+	display: flex;
+}
+
+.item {
+	display: flex;
+	align-items: center;
+	opacity: 0.5;
+	cursor: pointer;
+	padding: 1.2rem;
+
+	svg {
+		margin-right: 0.5rem;
+		fill: var(--color-text);
+	}
+}
+
+.active {
+	opacity: 1;
+}

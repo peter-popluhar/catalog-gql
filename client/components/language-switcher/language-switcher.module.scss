@@ -1,0 +1,23 @@
+.wrapper {
+	display: flex;
+}
+
+.item {
+	padding: 1.2rem;
+}
+
+.flag {
+	width: 1.8rem;
+	height: 100%;
+	opacity: 0.5;
+	transition: all 0.5s;
+	cursor: pointer;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.active {
+	opacity: 1;
+}

@@ -1,0 +1,114 @@
+/* -------------------------------- 
+
+Typography
+
+-------------------------------- */
+
+body {
+	color: var(--color-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: var(--color-text-heading);
+	font-weight: normal;
+}
+
+h1,
+.text--primary {
+	@include fontSize(30);
+
+	@include md {
+		@include fontSize(42);
+	}
+}
+
+h2,
+.text--xl {
+	@include fontSize(26);
+
+	@include md {
+		@include fontSize(36);
+	}
+}
+
+h3,
+.text--lg {
+	@include fontSize(24);
+
+	@include md {
+		@include fontSize(28);
+	}
+}
+
+h4,
+.text--md {
+	@include fontSize(20);
+}
+
+/* text size */
+.text--xxxl {
+	@include fontSize(30);
+
+	@include md {
+		@include fontSize(60);
+	}
+}
+
+.text--sm,
+small {
+	@include fontSize(13);
+}
+
+.text--xs {
+	@include fontSize(11);
+}
+
+p,
+.text-normal {
+	@include fontSize(16);
+}
+
+b,
+strong,
+.strong {
+	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
+	position: relative;
+	color: var(--color-text);
+
+	&:visited {
+		color: var(--color-text);
+	}
+}
+
+.styled-link {
+	position: relative;
+
+	&:after {
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: 1px;
+		background-color: var(--color-muted);
+		bottom: -1px;
+		left: 0;
+	}
+}
+
+.nbsp {
+	white-space: pre;
+}
+
+.text--overflow {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	overflow-wrap: anywhere;
+}
