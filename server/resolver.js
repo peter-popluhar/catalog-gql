@@ -1,3 +1,4 @@
+import {ObjectId} from 'mongodb'
 import {connectToDatabase} from './utils/mongodb'
 require("dotenv").config();
 
@@ -60,5 +61,18 @@ export const resolvers = {
       }
       return item
     },
+
+    deleteItem: async (_, {id}) => {
+
+      try {
+        const objectId = await ObjectId(id)
+        const {db} = await connectToDatabase()
+        const collection = await db.collection(MONGO_DB_COLLECTION)
+        await collection.deleteOne({_id: objectId})
+      } catch (e) {
+        console.log(e)
+      }
+      return {id}
+    }
   },
 };

@@ -1,9 +1,13 @@
+const fs = require("fs");
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, gql } from "apollo-server-express";
 import { resolvers } from "./resolver";
-import { typeDefs } from "./typeDefs";
+
 require('dotenv').config();
 
+const typeDefs = gql(
+  fs.readFileSync("./schema.graphql", { encoding: "utf-8" })
+);
 
 const {MONGODB_URI} = process.env
 

@@ -1,0 +1,51 @@
+type Query {
+  items: [Item!]
+}
+
+type Item {
+  _id: String
+  enName: String!
+  enLabelContent: String!
+  enCategories: String!
+  enDescription: String!
+  enPrice: String!
+  swName: String!
+  swLabelContent: String!
+  swCategories: String!
+  swDescription: String!
+  swPrice: String!
+}
+
+type DeleteItemResponse {
+  id: String
+}
+
+type CreateItemResponse {
+  enName: String
+  enLabelContent: String
+  enCategories: String
+  enDescription: String
+  enPrice: String
+  swName: String
+  swLabelContent: String
+  swCategories: String
+  swDescription: String
+  swPrice: String
+}
+
+type Mutation {
+  createItem(
+    enName: String!
+    enLabelContent: String!
+    enCategories: String!
+    enDescription: String!
+    enPrice: String!
+    swName: String!
+    swLabelContent: String!
+    swCategories: String!
+    swDescription: String!
+    swPrice: String!
+  ): CreateItemResponse
+
+  deleteItem(id: String!): DeleteItemResponse
+}
