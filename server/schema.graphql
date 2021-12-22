@@ -33,6 +33,20 @@ type CreateItemResponse {
   swPrice: String
 }
 
+type UpdateItemResponse {
+  id: String
+  enName: String
+  enLabelContent: String
+  enCategories: String
+  enDescription: String
+  enPrice: String
+  swName: String
+  swLabelContent: String
+  swCategories: String
+  swDescription: String
+  swPrice: String
+}
+
 type Mutation {
   createItem(
     enName: String!
@@ -48,4 +62,18 @@ type Mutation {
   ): CreateItemResponse
 
   deleteItem(id: String!): DeleteItemResponse
+
+  updateItem(
+    id: String!
+    enName: String!
+    enLabelContent: String!
+    enCategories: String!
+    enDescription: String!
+    enPrice: String!
+    swName: String!
+    swLabelContent: String!
+    swCategories: String!
+    swDescription: String!
+    swPrice: String!
+  ): UpdateItemResponse
 }
