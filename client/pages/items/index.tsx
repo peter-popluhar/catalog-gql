@@ -1,3 +1,4 @@
+import {gql} from '@apollo/client'
 import {GetServerSideProps} from 'next'
 import {ChangeEvent, useCallback} from 'react'
 import {useState, useEffect} from 'react'
@@ -12,15 +13,15 @@ import {useSettingsContext} from './../../context/settings-context'
 import cslx from 'clsx'
 import {UserType} from './../../types/user-type'
 import FormField from './../../components/form/form-field'
+import apolloClient from './../../util/apollo-client'
 
-const {MONGO_DB_COLLECTION, COOKIE_NAME} = process.env
+const {COOKIE_NAME} = process.env
 
 type Props = {
-	isConnected: boolean
 	items: ItemsType
 }
 
-export default function List({isConnected, items}: Props) {
+export default function List({items}: Props) {
 	const {lng, layout} = useSettingsContext()
 	const lngPath = itemsCopy?.[lng]
 
@@ -40,15 +41,6 @@ export default function List({isConnected, items}: Props) {
 		)
 		setSearchResults(results)
 	}, [searchTerm])
-
-	if (!isConnected) {
-		return (
-			<MastHead
-				title={lngPath.notConnected.title}
-				subtitle={lngPath.notConnected.subTitle}
-			/>
-		)
-	}
 
 	if (items.length < 1) {
 		return (
@@ -93,22 +85,34 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 			}
 		}
 
-		let items: ItemsType = []
 		const {client, db} = await connectToDatabase()
 		const isConnected = await client.isConnected()
 
-		try {
-			items = await db
-				.collection(MONGO_DB_COLLECTION)
-				.find({})
-				.sort({_id: -1})
-				.toArray()
-		} catch (e) {
-			console.log(e)
-		}
+		// @ask
+		// should it be in try catch? and how t put it in try catch ?
+		// what if server is not running?
+		const {data} = await apolloClient.query({
+			query: gql`
+				query items {
+					items {
+						_id
+						enName
+						enLabelContent
+						enCategories
+						enDescription
+						enPrice
+						swName
+						swLabelContent
+						swCategories
+						swDescription
+						swPrice
+					}
+				}
+			`,
+		})
 
 		return {
-			props: {isConnected, items: JSON.parse(JSON.stringify(items)), user},
+			props: {items: (data.items as ItemsType) || [], user},
 		}
 	},
 	{

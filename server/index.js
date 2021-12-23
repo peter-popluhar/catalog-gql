@@ -33,7 +33,7 @@ const server = async () => {
   app.get("/", (req, res) => res.send("Hello world"));
 
   app.listen({ port: 4001 }, () => {
-    console.log("connected");
+    console.log(`🚀 Server ready at http://localhost:4001${server.graphqlPath}`);
   });
 };
 
