@@ -18,9 +18,24 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 	if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
+// @ask
+//  How to setup cache correctly for SSR, so fresh data are refetch, after item is added?
+const defaultOptions = {
+	watchQuery: {
+	  fetchPolicy: 'network-only',
+	  errorPolicy: 'ignore',
+	},
+	query: {
+	  fetchPolicy: 'network-only',
+	  errorPolicy: 'all',
+	},
+  }
+
 const apolloClient = new ApolloClient({
+	ssrMode: true,
 	link: from([errorLink, httpLink]),
 	cache: new InMemoryCache(),
+	defaultOptions: defaultOptions,
 })
 
 export default apolloClient
