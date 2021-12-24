@@ -1,27 +1,43 @@
-import {MutableRefObject, useCallback} from 'react'
-import {useFormHook} from './../../../hooks/use-form-hook'
 import btn from './../../global/buttons.module.scss'
 import {formCopy} from '../../../copy/form'
 import {useSettingsContext} from '../../../context/settings-context'
+import {gql, useMutation} from '@apollo/client'
+import {useRouter} from 'next/router'
+
+const DELETE_ITEM = gql`
+	mutation DeleteItem($id: String!) {
+		DeleteItem(id: $id) {
+			id
+		}
+	}
+`
 
 type Props = {
-	form: MutableRefObject<HTMLFormElement>
 	id: string
 }
 
-export default function DeleteButton({id, form}: Props) {
-	const {handleForm, btnDisabled} = useFormHook(
-		form,
-		'/api/delete',
-		'DELETE',
-		'/items'
-	)
+export default function DeleteButton({id}: Props) {
+	const router = useRouter()
+	const [deleteItem, {data, loading, error}] = useMutation(DELETE_ITEM, {
+		variables: {
+			id,
+		},
+		onCompleted({ loading, error }) {
+			if (!loading && !error) {
+				router.push('/items')
+			}
+		  }
+	})
+
 	const {lng} = useSettingsContext()
 	const lngPath = formCopy?.[lng]
 
-	const handleClick = useCallback((e: {preventDefault: () => void}) => {
-		handleForm(e, id)
-	}, [])
+	const handleClick = () => {
+		deleteItem()
+	}
+
+	if (loading) return <p>'Submitting...'</p>
+	if (error) return <p>`Submission error! ${error.message}`</p>
 
 	return (
 		<div>
@@ -29,7 +45,7 @@ export default function DeleteButton({id, form}: Props) {
 				tabIndex={0}
 				onClick={handleClick}
 				className={`${btn.btnDelete} ${btn.btnLg}`}
-				disabled={btnDisabled}
+				disabled={loading}
 			>
 				{lngPath.deleteBtn}
 			</button>

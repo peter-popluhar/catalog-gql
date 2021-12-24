@@ -19,7 +19,7 @@ export default function Buttons({form, isEditable, id}: Props) {
 					<div>
 						<UpdateButton form={form} id={id} />
 					</div>
-					<DeleteButton form={null} id={id} />
+					<DeleteButton id={id} />
 				</>
 			) : (
 				<div>

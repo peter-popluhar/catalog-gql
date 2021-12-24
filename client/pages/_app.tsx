@@ -1,3 +1,4 @@
+import {ApolloProvider} from '@apollo/client'
 import Head from 'next/head'
 import type {AppProps} from 'next/app'
 import './../styles/index.scss'
@@ -5,6 +6,7 @@ import Layout from './../components/layout'
 import {SettingsProvider} from './../context/settings-context'
 import NProgress from 'nprogress'
 import Router from 'next/router'
+import client from './../util/apollo-client'
 
 function MyApp({Component, pageProps}: AppProps) {
 	Router.events.on('routeChangeStart', () => {
@@ -18,7 +20,7 @@ function MyApp({Component, pageProps}: AppProps) {
 	})
 
 	return (
-		<>
+		<ApolloProvider client={client}>
 			<Head>
 				<title>Catalog app</title>
 				<link rel='icon' href='/favicon.ico' />
@@ -28,7 +30,7 @@ function MyApp({Component, pageProps}: AppProps) {
 					<Component {...pageProps} />
 				</Layout>
 			</SettingsProvider>
-		</>
+		</ApolloProvider>
 	)
 }
 export default MyApp

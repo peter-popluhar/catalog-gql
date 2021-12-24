@@ -3,6 +3,7 @@ import { onError } from "@apollo/client/link/error";
 
 const localGraphQLServer = 'http://localhost:4001/graphql'
 
+// @FIXME set headers, auth...
 const httpLink = new HttpLink({
 	uri: localGraphQLServer,
 })
@@ -22,11 +23,11 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 //  How to setup cache correctly for SSR, so fresh data are refetch, after item is added?
 const defaultOptions = {
 	watchQuery: {
-	  fetchPolicy: 'network-only',
+	  fetchPolicy: 'no-cache',
 	  errorPolicy: 'ignore',
 	},
 	query: {
-	  fetchPolicy: 'network-only',
+	  fetchPolicy: 'no-cache',
 	  errorPolicy: 'all',
 	},
   }

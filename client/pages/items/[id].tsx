@@ -53,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 			query: gql`
 				query GetItem($id: String!) {
 					GetItem(id: $id) {
+						_id
 						enName
 						enLabelContent
 						enCategories

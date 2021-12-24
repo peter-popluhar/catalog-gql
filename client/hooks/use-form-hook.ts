@@ -27,25 +27,6 @@ export function useFormHook(
 
 		setBtnDisabled(true)
 
-		if (fetchUrl === '/api/delete') {
-			fetch(fetchUrl, {
-				headers: headers,
-				method: method,
-				body: JSON.stringify(id),
-			}).then((res) => {
-				if (res.status === 200) {
-					setBtnDisabled(false)
-					router.push(redirect)
-					setTestStatus({
-						fetchUrl: fetchUrl,
-						method: method,
-						status: 200,
-						redirect: redirect,
-					})
-				}
-			})
-		}
-
 		if (fetchUrl === '/api/logout') {
 			fetch(fetchUrl, {
 				headers: headers,
