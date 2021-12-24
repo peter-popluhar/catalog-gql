@@ -6,11 +6,12 @@ const { MONGO_DB_COLLECTION } = process.env;
 
 export const resolvers = {
   Query: {
-    items: async () => {
+    GetItems: async () => {
       let items;
 
       try {
         const { db } = await connectToDatabase();
+
         items = await db
           .collection(MONGO_DB_COLLECTION)
           .find({})
@@ -19,12 +20,30 @@ export const resolvers = {
       } catch (e) {
         console.log(e);
       }
+
       return JSON.parse(JSON.stringify(items));
+    },
+
+    GetItem: async (_, { id }) => {
+      let item;
+
+      try {
+        const objectId = await ObjectId(id);
+        const { db } = await connectToDatabase();
+
+        item = await db
+          .collection(MONGO_DB_COLLECTION)
+          .findOne({ _id: objectId });
+      } catch (e) {
+        console.log(e);
+      }
+
+      return JSON.parse(JSON.stringify(item));
     },
   },
 
   Mutation: {
-    createItem: async (
+    CreateItem: async (
       _,
       {
         enName,
@@ -55,14 +74,16 @@ export const resolvers = {
       try {
         const { db } = await connectToDatabase();
         const collection = await db.collection(MONGO_DB_COLLECTION);
+
         await collection.insertOne(item);
       } catch (e) {
         console.log(e);
       }
+
       return item;
     },
 
-    deleteItem: async (_, { id }) => {
+    DeleteItem: async (_, { id }) => {
       try {
         const objectId = await ObjectId(id);
         const { db } = await connectToDatabase();
@@ -71,10 +92,11 @@ export const resolvers = {
       } catch (e) {
         console.log(e);
       }
+
       return { id };
     },
 
-    updateItem: async (
+    UpdateItem: async (
       _,
       {
         id,
@@ -106,10 +128,12 @@ export const resolvers = {
         const objectId = await ObjectId(id);
         const { db } = await connectToDatabase();
         const collection = await db.collection(MONGO_DB_COLLECTION);
+
         await collection.replaceOne({ _id: objectId }, item);
       } catch (e) {
         console.log(e);
       }
+
       return item;
     },
   },

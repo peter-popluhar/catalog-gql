@@ -3,7 +3,6 @@ import {GetServerSideProps} from 'next'
 import {ChangeEvent, useCallback} from 'react'
 import {useState, useEffect} from 'react'
 import {withIronSession} from 'next-iron-session'
-import {connectToDatabase} from '../../util/mongodb'
 import MediaObject from './../../components/media-object'
 import grid from './../../components/global/grid.module.scss'
 import {ItemsType, ItemType} from '../../types/data-type'
@@ -85,16 +84,13 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 			}
 		}
 
-		const {client, db} = await connectToDatabase()
-		const isConnected = await client.isConnected()
-
 		// @ask
 		// should it be in try catch? and how t put it in try catch ?
 		// what if server is not running?
 		const {data} = await apolloClient.query({
 			query: gql`
-				query items {
-					items {
+				query GetItems {
+					GetItems {
 						_id
 						enName
 						enLabelContent
@@ -112,7 +108,7 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 		})
 
 		return {
-			props: {items: (data.items as ItemsType) || [], user},
+			props: {items: (data.GetItems as ItemsType) || [], user},
 		}
 	},
 	{

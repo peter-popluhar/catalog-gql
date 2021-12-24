@@ -1,15 +1,15 @@
+import {gql} from '@apollo/client'
 import {GetServerSideProps} from 'next'
 import {withIronSession} from 'next-iron-session'
-import {connectToDatabase} from '../../util/mongodb'
-import {ObjectID} from 'mongodb'
 import MastHead from './../../components/masthead'
 import Form from './../../components/form'
 import {itemCopy} from '../../copy/items'
 import {useSettingsContext} from './../../context/settings-context'
 import {UserType} from './../../types/user-type'
 import {ItemType} from '../../types/data-type'
+import apolloClient from '../../util/apollo-client'
 
-const {MONGO_DB_COLLECTION, COOKIE_NAME} = process.env
+const {COOKIE_NAME} = process.env
 
 type Props = {
 	data: ItemType
@@ -48,14 +48,29 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 		}
 
 		const {id} = query
-		const {db} = await connectToDatabase()
-		const objectId = await ObjectID(id)
-		const data = await db
-			.collection(MONGO_DB_COLLECTION)
-			.findOne({_id: objectId})
+
+		const {data} = await apolloClient.query({
+			query: gql`
+				query GetItem($id: String!) {
+					GetItem(id: $id) {
+						enName
+						enLabelContent
+						enCategories
+						enDescription
+						enPrice
+						swName
+						swLabelContent
+						swCategories
+						swDescription
+						swPrice
+					}
+				}
+			`,
+			variables: {id: id},
+		})
 
 		return {
-			props: {user, data: JSON.parse(JSON.stringify(data))},
+			props: {user, data: JSON.parse(JSON.stringify(data.GetItem))},
 		}
 	},
 	{
