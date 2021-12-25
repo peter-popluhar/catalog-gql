@@ -56,7 +56,7 @@ export default function AddButton({formRef}: Props) {
 	const [createItem, {data, loading, error}] = useMutation(CREATE_ITEM, {
 		onCompleted({loading, error}) {
 			if (!loading && !error) {
-				router.push('/items')
+				router.push('/')
 			}
 		},
 	})

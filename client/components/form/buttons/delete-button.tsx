@@ -24,7 +24,7 @@ export default function DeleteButton({id}: Props) {
 		},
 		onCompleted({ loading, error }) {
 			if (!loading && !error) {
-				router.push('/items')
+				router.push('/')
 			}
 		  }
 	})

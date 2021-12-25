@@ -13,7 +13,7 @@ export default function LoginButton({form}: Props) {
 		form,
 		'/api/login',
 		'POST',
-		'/items'
+		'/'
 	)
 	const {lng} = useSettingsContext()
 	const lngPath = formCopy?.[lng]

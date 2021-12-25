@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Logo() {
 	return (
-		<Link href='/items'>
+		<Link href='/'>
 			<a>
 				<Image
 					alt='Logo'

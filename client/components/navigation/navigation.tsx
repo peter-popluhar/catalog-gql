@@ -16,11 +16,11 @@ export default function Navigation() {
 		<nav className={styles.nav}>
 			<ul className={styles.list}>
 				<li className={styles.item}>
-					<Link href='/items'>
+					<Link href='/'>
 						<a
 							className={cslx(
 								styles.link,
-								pathname === '/items' && styles.active
+								pathname === '/' && styles.active
 							)}
 						>
 							{copyPath.allItems}
