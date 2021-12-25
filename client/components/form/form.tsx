@@ -26,9 +26,10 @@ export default function Form({data, isEditable}: Props) {
 				)}
 
 				<Buttons
-					form={form}
+					formRef={form}
 					isEditable={isEditable}
 					id={data ? data._id : null}
+					data={data}
 				/>
 			</form>
 		</div>

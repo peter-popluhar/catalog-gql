@@ -32,7 +32,8 @@ export default function DeleteButton({id}: Props) {
 	const {lng} = useSettingsContext()
 	const lngPath = formCopy?.[lng]
 
-	const handleClick = () => {
+	const handleClick = (e) => {
+		e.preventDefault()
 		deleteItem()
 	}
 
