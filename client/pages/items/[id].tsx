@@ -13,11 +13,42 @@ const {COOKIE_NAME} = process.env
 
 type Props = {
 	data: ItemType
+	isError?: Record<string, string>
 }
 
-export default function Item({data}: Props) {
+const GET_ITEM = gql`
+	query GetItem($id: String!) {
+		GetItem(id: $id) {
+			_id
+			enName
+			enLabelContent
+			enCategories
+			enDescription
+			enPrice
+			swName
+			swLabelContent
+			swCategories
+			swDescription
+			swPrice
+		}
+	}
+`
+
+export default function Item({data, isError}: Props) {
 	const {lng} = useSettingsContext()
 	const lngPath = itemCopy?.[lng]
+
+	if (isError) {
+		console.log(isError)
+		return (
+			<>
+				<MastHead title='There are some errors!' subtitle={isError.message}>
+					<br />
+					<p>For error log see browser console, please.</p>
+				</MastHead>
+			</>
+		)
+	}
 
 	if (!data) {
 		return <MastHead title={lngPath.notExists} />
@@ -49,29 +80,20 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 
 		const {id} = query
 
-		const {data} = await apolloClient.query({
-			query: gql`
-				query GetItem($id: String!) {
-					GetItem(id: $id) {
-						_id
-						enName
-						enLabelContent
-						enCategories
-						enDescription
-						enPrice
-						swName
-						swLabelContent
-						swCategories
-						swDescription
-						swPrice
-					}
-				}
-			`,
-			variables: {id: id},
-		})
+		try {
+			const {data} = await apolloClient.query({
+				query: GET_ITEM,
+				variables: {id: id},
+			})
 
-		return {
-			props: {user, data: JSON.parse(JSON.stringify(data.GetItem))},
+			return {
+				props: {user, data: JSON.parse(JSON.stringify(data.GetItem))},
+			}
+		} catch (e) {
+			console.log(e)
+			return {
+				props: {items: {}, user, isError: JSON.parse(JSON.stringify(e))},
+			}
 		}
 	},
 	{

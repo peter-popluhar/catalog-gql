@@ -18,6 +18,7 @@ const {COOKIE_NAME} = process.env
 
 type Props = {
 	items: ItemsType
+	isError?: Record<string, string>
 }
 
 const GET_ITEMS = gql`
@@ -38,7 +39,7 @@ const GET_ITEMS = gql`
 	}
 `
 
-export default function List({items}: Props) {
+export default function List({items, isError}: Props) {
 	const {lng, layout} = useSettingsContext()
 	const lngPath = itemsCopy?.[lng]
 
@@ -58,6 +59,21 @@ export default function List({items}: Props) {
 		)
 		setSearchResults(results)
 	}, [searchTerm])
+
+	if (isError) {
+		console.log(isError)
+		return (
+			<>
+				<MastHead
+					title='There are some errors!'
+					subtitle={isError.message}
+				>
+					<br />
+					<p>For error log see browser console, please.</p>
+				</MastHead>
+			</>
+		)
+	}
 
 	if (items.length < 1) {
 		return (
@@ -102,15 +118,19 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 			}
 		}
 
-		// @ask
-		// should it be in try catch? and how t put it in try catch ?
-		// what if server is not running?
-		const {data} = await apolloClient.query({
-			query: GET_ITEMS,
-		})
+		try {
+			const {data} = await apolloClient.query({
+				query: GET_ITEMS,
+			})
 
-		return {
-			props: {items: (data.GetItems as ItemsType) || [], user},
+			return {
+				props: {items: data.GetItems as ItemsType, user},
+			}
+		} catch (e) {
+			console.log(e)
+			return {
+				props: {items: [], user, isError: JSON.parse(JSON.stringify(e))},
+			}
 		}
 	},
 	{
