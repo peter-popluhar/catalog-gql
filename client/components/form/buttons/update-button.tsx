@@ -54,7 +54,7 @@ type Props = {
 
 export default function UpdateButton({formRef, id}: Props) {
 	const router = useRouter()
-	const {lng} = useSettingsContext()
+	const {lng, user} = useSettingsContext()
 	const lngPath = formCopy?.[lng]
 
 	const [updateItem, {data, loading, error}] = useMutation(UPDATE_ITEM, {
@@ -63,6 +63,7 @@ export default function UpdateButton({formRef, id}: Props) {
 				router.push(`/items/${id}`)
 			}
 		},
+		context: {headers: {authorization: user}},
 	})
 
 	const handleClick = (e) => {

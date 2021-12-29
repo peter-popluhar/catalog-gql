@@ -84,6 +84,7 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 			const {data} = await apolloClient.query({
 				query: GET_ITEM,
 				variables: {id: id},
+				context: { headers: { authorization: user.name }, }
 			})
 
 			return {

@@ -11,6 +11,8 @@ type Settings = {
 	setLayout: (params: string) => void
 	lng: string
 	setLanguage: (params: string) => void
+	user: string
+	setUser: (params: string) => void
 }
 
 const SettingsContext = createContext<Settings>({
@@ -20,16 +22,19 @@ const SettingsContext = createContext<Settings>({
 	setLayout: () => {},
 	lng: '',
 	setLanguage: () => {},
+	user: '',
+	setUser: () => {}
 })
 
 export const SettingsProvider = ({children}: Props) => {
 	const [theme, setTheme] = useState<string>('light')
 	const [layout, setLayout] = useState<string>('detail')
 	const [lng, setLanguage] = useState<string>('en')
+	const [user, setUser] = useState<string>('')
 
 	return (
 		<SettingsContext.Provider
-			value={{theme, setTheme, layout, setLayout, lng, setLanguage}}
+			value={{theme, setTheme, layout, setLayout, lng, setLanguage, user, setUser}}
 		>
 			{children}
 		</SettingsContext.Provider>

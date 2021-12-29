@@ -17,20 +17,20 @@ type Props = {
 }
 
 export default function DeleteButton({id}: Props) {
+	const {lng, user} = useSettingsContext()
+	const lngPath = formCopy?.[lng]
 	const router = useRouter()
 	const [deleteItem, {data, loading, error}] = useMutation(DELETE_ITEM, {
 		variables: {
 			id,
 		},
-		onCompleted({ loading, error }) {
+		onCompleted({loading, error}) {
 			if (!loading && !error) {
 				router.push('/')
 			}
-		  }
+		},
+		context: {headers: {authorization: user}},
 	})
-
-	const {lng} = useSettingsContext()
-	const lngPath = formCopy?.[lng]
 
 	const handleClick = (e) => {
 		e.preventDefault()

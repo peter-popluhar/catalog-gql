@@ -9,6 +9,7 @@ import Router from 'next/router'
 import client from './../util/apollo-client'
 
 function MyApp({Component, pageProps}: AppProps) {
+
 	Router.events.on('routeChangeStart', () => {
 		NProgress.start()
 	})

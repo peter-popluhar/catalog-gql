@@ -19,6 +19,7 @@ const {COOKIE_NAME} = process.env
 type Props = {
 	items: ItemsType
 	isError?: Record<string, string>
+	user: UserType
 }
 
 const GET_ITEMS = gql`
@@ -39,8 +40,8 @@ const GET_ITEMS = gql`
 	}
 `
 
-export default function List({items, isError}: Props) {
-	const {lng, layout} = useSettingsContext()
+export default function List({items, isError, user}: Props) {
+	const {lng, layout, setUser} = useSettingsContext()
 	const lngPath = itemsCopy?.[lng]
 
 	const [searchTerm, setSearchTerm] = useState<string>('')
@@ -60,14 +61,15 @@ export default function List({items, isError}: Props) {
 		setSearchResults(results)
 	}, [searchTerm])
 
+	useEffect(() => {
+		setUser(user.name)
+	}, [user])
+
 	if (isError) {
 		console.log(isError)
 		return (
 			<>
-				<MastHead
-					title='There are some errors!'
-					subtitle={isError.message}
-				>
+				<MastHead title='There are some errors!' subtitle={isError.message}>
 					<br />
 					<p>For error log see browser console, please.</p>
 				</MastHead>
@@ -121,6 +123,7 @@ export const getServerSideProps: GetServerSideProps = withIronSession(
 		try {
 			const {data} = await apolloClient.query({
 				query: GET_ITEMS,
+				context: { headers: { authorization: user.name }, }
 			})
 
 			return {

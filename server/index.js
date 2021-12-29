@@ -10,7 +10,7 @@ const typeDefs = gql(
   fs.readFileSync("./schema.graphql", { encoding: "utf-8" })
 );
 
-const { MONGODB_DB, MONGO_DB_COLLECTION } = process.env;
+const { MONGODB_DB, MONGO_DB_COLLECTION, TOKEN } = process.env;
 
 const server = async () => {
   let isDBConnected = false;
@@ -30,7 +30,14 @@ const server = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: () => ({ dbCollection }),
+    introspection: process.env.NODE_ENV !== "production",
+    context: ({ req }) => {
+      const token = req.headers.authorization;
+
+      if (token !== TOKEN) throw new AuthorizationError("you must be logged in");
+
+      return { dbCollection };
+    },
   });
 
   await server.start();

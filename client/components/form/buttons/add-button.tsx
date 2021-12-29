@@ -50,7 +50,7 @@ type Props = {
 
 export default function AddButton({formRef}: Props) {
 	const router = useRouter()
-	const {lng} = useSettingsContext()
+	const {lng, user} = useSettingsContext()
 	const lngPath = formCopy?.[lng]
 
 	const [createItem, {data, loading, error}] = useMutation(CREATE_ITEM, {
@@ -59,6 +59,7 @@ export default function AddButton({formRef}: Props) {
 				router.push('/')
 			}
 		},
+		context: {headers: {authorization: user}},
 	})
 
 	const handleClick = (e) => {

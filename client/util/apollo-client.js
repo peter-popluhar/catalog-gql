@@ -3,7 +3,7 @@ import { onError } from "@apollo/client/link/error";
 
 const localGraphQLServer = 'http://localhost:4001/graphql'
 
-// @FIXME set headers, auth...
+// @FIXME set headers
 const httpLink = new HttpLink({
 	uri: localGraphQLServer,
 })
