@@ -1,20 +1,12 @@
 import { ObjectId } from "mongodb";
-import clientPromise from "./utils/mongodb";
-require("dotenv").config();
-
-const { MONGODB_DB, MONGO_DB_COLLECTION } = process.env;
 
 export const resolvers = {
   Query: {
-    GetItems: async () => {
+    GetItems: async (_parent, _args, { dbCollection }) => {
       let items;
 
       try {
-        const client = await clientPromise;
-        const db = client.db(MONGODB_DB);
-
-        items = await db
-          .collection(MONGO_DB_COLLECTION)
+        items = await dbCollection
           .find({})
           .sort({ _id: -1 })
           .toArray();
@@ -25,16 +17,13 @@ export const resolvers = {
       return JSON.parse(JSON.stringify(items));
     },
 
-    GetItem: async (_, { id }) => {
+    GetItem: async (_parent, { id }, { dbCollection }) => {
       let item;
 
       try {
         const objectId = await ObjectId(id);
-        const client = await clientPromise;
-        const db = client.db(MONGODB_DB);
 
-        item = await db
-          .collection(MONGO_DB_COLLECTION)
+        item = await dbCollection
           .findOne({ _id: objectId });
       } catch (e) {
         console.log(e);
@@ -58,7 +47,8 @@ export const resolvers = {
         swCategories,
         swDescription,
         swPrice,
-      }
+      },
+      { dbCollection }
     ) => {
       const item = {
         enName,
@@ -74,11 +64,7 @@ export const resolvers = {
       };
 
       try {
-        const client = await clientPromise;
-        const db = client.db(MONGODB_DB);
-        const collection = await db.collection(MONGO_DB_COLLECTION);
-
-        await collection.insertOne(item);
+        await dbCollection.insertOne(item);
       } catch (e) {
         console.log(e);
       }
@@ -86,13 +72,10 @@ export const resolvers = {
       return item;
     },
 
-    DeleteItem: async (_, { id }) => {
+    DeleteItem: async (_, { id }, { dbCollection }) => {
       try {
         const objectId = await ObjectId(id);
-        const client = await clientPromise;
-        const db = client.db(MONGODB_DB);
-        const collection = await db.collection(MONGO_DB_COLLECTION);
-        await collection.deleteOne({ _id: objectId });
+        await dbCollection.deleteOne({ _id: objectId });
       } catch (e) {
         console.log(e);
       }
@@ -114,7 +97,8 @@ export const resolvers = {
         swCategories,
         swDescription,
         swPrice,
-      }
+      },
+      { dbCollection }
     ) => {
       const item = {
         enName,
@@ -130,11 +114,8 @@ export const resolvers = {
       };
       try {
         const objectId = await ObjectId(id);
-        const client = await clientPromise;
-        const db = client.db(MONGODB_DB);
-        const collection = await db.collection(MONGO_DB_COLLECTION);
 
-        await collection.replaceOne({ _id: objectId }, item);
+        await dbCollection.replaceOne({ _id: objectId }, item);
       } catch (e) {
         console.log(e);
       }

@@ -13,30 +13,36 @@ const typeDefs = gql(
 const { MONGODB_DB, MONGO_DB_COLLECTION } = process.env;
 
 const server = async () => {
+  let isDBConnected = false;
+  let dbCollection = {};
+
+  try {
+    const client = await clientPromise;
+    const db = await client.db(MONGODB_DB);
+    dbCollection = await db.collection(MONGO_DB_COLLECTION);
+    isDBConnected = true;
+  } catch (e) {
+    console.log(e);
+    isDBConnected = false;
+  }
+
   const app = express();
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: () => ({ dbCollection }),
   });
 
   await server.start();
   server.applyMiddleware({ app });
 
-  let isConnected;
-
-  try {
-    const client = await clientPromise
-    isConnected = true;
-  } catch(e) {
-    console.log(e);
-    isConnected = false;
-  }
-
   app.get("/", (req, res) => res.send("Hello world"));
 
   app.listen({ port: 4001 }, () => {
-    console.log(`🚀 Server ready at http://localhost:4001${server.graphqlPath}`);  
-    console.log(`👉 Database is connected: ${isConnected}`);  
+    console.log(
+      `🚀 Server ready at http://localhost:4001${server.graphqlPath}`
+    );
+    console.log(`👉 Database is connected: ${isDBConnected}`);
   });
 };
 
