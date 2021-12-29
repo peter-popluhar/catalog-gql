@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb";
-import { connectToDatabase } from "./utils/mongodb";
+import clientPromise from "./utils/mongodb";
 require("dotenv").config();
 
-const { MONGO_DB_COLLECTION } = process.env;
+const { MONGODB_DB, MONGO_DB_COLLECTION } = process.env;
 
 export const resolvers = {
   Query: {
@@ -10,7 +10,8 @@ export const resolvers = {
       let items;
 
       try {
-        const { db } = await connectToDatabase();
+        const client = await clientPromise;
+        const db = client.db(MONGODB_DB);
 
         items = await db
           .collection(MONGO_DB_COLLECTION)
@@ -29,7 +30,8 @@ export const resolvers = {
 
       try {
         const objectId = await ObjectId(id);
-        const { db } = await connectToDatabase();
+        const client = await clientPromise;
+        const db = client.db(MONGODB_DB);
 
         item = await db
           .collection(MONGO_DB_COLLECTION)
@@ -72,7 +74,8 @@ export const resolvers = {
       };
 
       try {
-        const { db } = await connectToDatabase();
+        const client = await clientPromise;
+        const db = client.db(MONGODB_DB);
         const collection = await db.collection(MONGO_DB_COLLECTION);
 
         await collection.insertOne(item);
@@ -86,7 +89,8 @@ export const resolvers = {
     DeleteItem: async (_, { id }) => {
       try {
         const objectId = await ObjectId(id);
-        const { db } = await connectToDatabase();
+        const client = await clientPromise;
+        const db = client.db(MONGODB_DB);
         const collection = await db.collection(MONGO_DB_COLLECTION);
         await collection.deleteOne({ _id: objectId });
       } catch (e) {
@@ -126,7 +130,8 @@ export const resolvers = {
       };
       try {
         const objectId = await ObjectId(id);
-        const { db } = await connectToDatabase();
+        const client = await clientPromise;
+        const db = client.db(MONGODB_DB);
         const collection = await db.collection(MONGO_DB_COLLECTION);
 
         await collection.replaceOne({ _id: objectId }, item);
