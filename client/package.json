@@ -1,5 +1,5 @@
 {
-	"name": "with-mongodb",
+	"name": "catalogue",
 	"version": "0.1.0",
 	"scripts": {
 		"dev": "next dev",
@@ -16,7 +16,6 @@
 		"clsx": "^1.1.1",
 		"graphql": "^16.2.0",
 		"identity-obj-proxy": "^3.0.0",
-		"mongodb": "^3.5.9",
 		"next": "latest",
 		"next-iron-session": "^4.2.0",
 		"nprogress": "^0.2.0",
@@ -25,7 +24,6 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
-		"@shelf/jest-mongodb": "^2.1.0",
 		"@testing-library/jest-dom": "^5.15.1",
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/react-hooks": "^7.0.2",
