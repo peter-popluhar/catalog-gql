@@ -18,7 +18,7 @@ app.use(express.json());
 
 const httpServer = http.createServer(app);
 
-const startApolloServer = async () => {
+const startApolloServer = async (app, httpServer) => {
   let isDBConnected = false;
   let dbCollection = {};
 
@@ -35,6 +35,7 @@ const startApolloServer = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     introspection: process.env.NODE_ENV !== "production",
     context: ({ req }) => {
       // @FIXME
@@ -43,7 +44,6 @@ const startApolloServer = async () => {
 
       return { dbCollection };
     },
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
   await server.start();
