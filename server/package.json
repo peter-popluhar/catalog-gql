@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node index.js"
+    "dev": "nodemon --exec babel-node dev"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-core": "^3.5.0",
     "apollo-server-express": "^3.5.0",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "graphql": "^15.8.0",
