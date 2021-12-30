@@ -1,7 +1,10 @@
 import {ApolloClient, InMemoryCache, HttpLink, from} from '@apollo/client'
-import { onError } from "@apollo/client/link/error";
+import {onError} from '@apollo/client/link/error'
 
-const localGraphQLServer = 'http://localhost:4001/graphql'
+const localGraphQLServer =
+	process.env.NODE_ENV === 'production'
+		? 'https://catalog-gql-apollo-server.vercel.app/graphql'
+		: 'http://localhost:4001/graphql'
 
 // @FIXME set headers
 const httpLink = new HttpLink({
@@ -23,14 +26,14 @@ const errorLink = onError(({graphQLErrors, networkError}) => {
 //  How to setup cache correctly for SSR, so fresh data are refetch, after item is added?
 const defaultOptions = {
 	watchQuery: {
-	  fetchPolicy: 'no-cache',
-	  errorPolicy: 'ignore',
+		fetchPolicy: 'no-cache',
+		errorPolicy: 'ignore',
 	},
 	query: {
-	  fetchPolicy: 'no-cache',
-	  errorPolicy: 'all',
+		fetchPolicy: 'no-cache',
+		errorPolicy: 'all',
 	},
-  }
+}
 
 const apolloClient = new ApolloClient({
 	ssrMode: true,
