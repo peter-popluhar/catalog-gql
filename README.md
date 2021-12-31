@@ -1,4 +1,6 @@
-# Catalog
+# Catalog (GQL version)
+
+This is refactoring of old REST API version of [Catalog](https://github.com/peter-popluhar/catalog) to GQL Apollo Server/Client
 
 Catalog is a POC web app, for administration of products, based on Next.js and GQL server.
 
