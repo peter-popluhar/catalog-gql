@@ -22,6 +22,16 @@ const startApolloServer = async (app, httpServer) => {
   let isDBConnected = false;
   let dbCollection = {};
 
+  try {
+    const client = await clientPromise;
+    const db = await client.db(MONGODB_DB);
+    dbCollection = await db.collection(MONGO_DB_COLLECTION);
+    isDBConnected = true;
+  } catch (e) {
+    console.log(e);
+    isDBConnected = false;
+  }
+
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -38,16 +48,6 @@ const startApolloServer = async (app, httpServer) => {
 
   await server.start();
   server.applyMiddleware({ app });
-
-  try {
-    const client = await clientPromise;
-    const db = await client.db(MONGODB_DB);
-    dbCollection = await db.collection(MONGO_DB_COLLECTION);
-    isDBConnected = true;
-  } catch (e) {
-    console.log(e);
-    isDBConnected = false;
-  }
 
   //   app.get("/", (req, res) => res.send("Hello world"));
   console.log(`👉 Database is connected: ${isDBConnected}`);
