@@ -1,14 +1,11 @@
 import {ApolloClient, InMemoryCache, HttpLink, from} from '@apollo/client'
 import {onError} from '@apollo/client/link/error'
 
-const localGraphQLServer =
-	process.env.NODE_ENV === 'production'
-		? 'https://catalog-gql-apollo-server.vercel.app/graphql'
-		: 'http://localhost:4001/graphql'
+const graphQLServer = typeof window !== 'undefined' ? 'http://localhost:4001/graphql' : 'http://server:4001/graphql'
 
 // @FIXME set headers
 const httpLink = new HttpLink({
-	uri: localGraphQLServer,
+	uri: graphQLServer,
 })
 
 const errorLink = onError(({graphQLErrors, networkError}) => {

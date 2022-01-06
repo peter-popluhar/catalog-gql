@@ -1,13 +1,17 @@
+const fs = require("fs");
 import http from "http";
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, gql } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
-import { resolvers } from "./../resolver";
-import { typeDefs } from "./../typeDefs";
-import clientPromise from "./../utils/mongodb";
+import { resolvers } from "./resolver";
+import clientPromise from "./utils/mongodb";
 import cors from "cors";
 
 require("dotenv").config();
+
+const typeDefs = gql(
+  fs.readFileSync("./schema.gql", { encoding: "utf-8" })
+);
 
 const { MONGODB_DB, MONGO_DB_COLLECTION, TOKEN } = process.env;
 
@@ -50,7 +54,13 @@ const startApolloServer = async (app, httpServer) => {
   server.applyMiddleware({ app });
 
   //   app.get("/", (req, res) => res.send("Hello world"));
-  console.log(`👉 Database is connected: ${isDBConnected}`);
+
+  app.listen({ port: 4001 }, () => {
+    console.log(
+      `🚀 Server ready at http://localhost:4001${server.graphqlPath}`
+    );
+    console.log(`👉 Database is connected: ${isDBConnected}`);
+  });
 };
 
 startApolloServer(app, httpServer);
